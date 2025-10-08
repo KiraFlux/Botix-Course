@@ -1,18 +1,62 @@
+// Функция для управления моторами
+void setMotors(int L, int R) {
+	// 1. Сначала устанавливаем направления (Определяем по знаку скорости)
+	digitalWrite(4, L < 0);
+	digitalWrite(7, R < 0);
+
+	// 2. Берём модуль (абсолютное значение) скоростей (ШИМ)
+	L = abs(L);
+	R = abs(R);
+
+	// 3. Ограничиваем значения ШИМ
+	L = constrain(L, 0, 255);
+	R = constrain(R, 0, 255);
+
+    // 4. Подаём ШИМ на пины драйвера для установки скорости моторов
+	analogWrite(5, L);
+	analogWrite(6, R);
+}
+
 void setup() {
+    // Установка пинов драйвера моторов как ВЫХОД
 	pinMode(4, OUTPUT);
 	pinMode(5, OUTPUT);
 	pinMode(6, OUTPUT);
 	pinMode(7, OUTPUT);
-}
 
-void setMotors(int L, int R) {
-	L = constrain(L, -255, 255);
-	R = constrain(R, -255, 255);
+	// Тест моторов
 
-	digitalWrite(4, L < 0);
-	analogWrite(5, abs(L));
-	analogWrite(6, abs(R));
-	digitalWrite(7, R < 0);
+	delay(1000);
+
+    // 1. Проверка левого мотора
+
+    // Включаем левый мотор вперёд..
+    setMotors(255, 0);
+    delay(2000);
+
+    // Включаем левый мотор назад..
+    setMotors(-255, 0);
+    delay(2000);
+
+    // Выключаем левый мотор
+    setMotors(0, 0);
+
+    // 2. Пауза между тестированиями
+
+    delay(2000)
+
+    // 3. Проверка правого мотора
+
+    // Включаем правый мотор вперёд..
+    setMotors(255, 0);
+    delay(2000);
+
+    // Включаем правый мотор назад..
+    setMotors(-255, 0);
+    delay(2000);
+
+    // Выключаем правый мотор
+    setMotors(0, 0);
 }
 
 void loop() {}
